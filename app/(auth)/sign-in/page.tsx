@@ -1,6 +1,18 @@
 "use client";
+import { SignIn } from "@/actions/(auth)/auth-actions";
+import React from "react";
+import { useState } from "react";
 
 export default function SignInPage() {
+  const [email, setemail] = useState("")
+  const [password, setpassword] = useState("")
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const result = await SignIn(email, password);
+    console.log(result);
+  }
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
@@ -30,11 +42,12 @@ export default function SignInPage() {
         </div>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="text-sm text-zinc-300 block mb-2">Email</label>
 
             <input
+              value={email}
               type="email"
               placeholder="john@example.com"
               className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
@@ -45,6 +58,7 @@ export default function SignInPage() {
             <label className="text-sm text-zinc-300 block mb-2">Password</label>
 
             <input
+              value={password}
               type="password"
               placeholder="••••••••"
               className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"

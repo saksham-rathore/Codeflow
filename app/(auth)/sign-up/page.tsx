@@ -6,7 +6,7 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  
   // <input value={name} onChange={(e) => setName(e.target.value)} />;
 
   // <input value={email} onChange={(e) => setEmail(e.target.value)} />;
