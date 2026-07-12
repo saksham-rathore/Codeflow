@@ -25,7 +25,7 @@ export default function SignInPage() {
 
         {/* Social Login */}
         <div className="space-y-3">
-          <button className="w-full flex items-center justify-center gap-3 border border-zinc-700 hover:bg-zinc-900 text-white py-3 rounded-lg transition">
+          <button className="w-full flex items-center justify-center gap-3 border border-zinc-700 hover:bg-zinc-900 text-white py-3 rounded-lg transition" >
             Continue with Google
           </button>
 
