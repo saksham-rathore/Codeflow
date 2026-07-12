@@ -1,4 +1,7 @@
+// import type { Metadata } from "next";
 import "./globals.css";
+import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+
 
 export default function RootLayout({
   children,
@@ -6,8 +9,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full antialiased`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`h-full antialiased`}>
+      <body className={`antialiased`}>
+        <ConvexClientProvider>
+          {children}
+        </ConvexClientProvider>
+      </body>
     </html>
   );
 }
