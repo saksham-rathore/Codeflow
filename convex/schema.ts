@@ -10,4 +10,4 @@ export default defineSchema({
     name: v.string(),
     userName: v.string(),
   }),
-});
+}); 
