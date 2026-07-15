@@ -1,11 +1,18 @@
+"use client";
+import { useState } from 'react'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div>
-        <button className="gradient-btn">Click Me</button>
-    </div>
-  )
+    const handleblocking = async () => {
+        await fetch("api/chat", { method: "POST" });
+    }
+    const [loading, setloading] = useState("")
+    // setloading("false")
+    return (
+        <div>
+            <button onClick={handleblocking} className="gradient-btn">Click Me</button>
+        </div>
+    )
 }
 
 export default page
