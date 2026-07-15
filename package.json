@@ -12,6 +12,7 @@
     "@ai-sdk/google": "^4.0.16",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "ai": "^7.0.28",
     "better-auth": "^1.6.23",
     "convex": "^1.42.1",
     "next": "16.2.10",

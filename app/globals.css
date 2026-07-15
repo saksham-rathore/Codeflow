@@ -1,27 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.gradient-btn {
+  /* The Gradient Background */
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+
+  /* Text Styling */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: sans-serif;
+
+  /* Button Shape and Size */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  /* Rounded corners */
+  cursor: pointer;
+
+  /* Smooth animation for hover */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Hover Effect */
+.gradient-btn:hover {
+  transform: translateY(-2px);
+  /* Moves the button slightly up */
+  box-shadow: 0 4px 10px rgba(255, 75, 43, 0.4);
+  /* Adds a soft glowing shadow */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Click Effect */
+.gradient-btn:active {
+  transform: translateY(1px);
+  /* Pushes the button down when clicked */
+  box-shadow: 0 2px 5px rgba(255, 75, 43, 0.4);
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
