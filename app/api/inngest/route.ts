@@ -4,5 +4,5 @@ import { processTask } from "@/app/inngest/functions";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [processTask,],
+  functions: [processTask]
 });

@@ -13,3 +13,5 @@ export const processTask = inngest.createFunction(
     return { message: `Task ${event.data.id} complete`, result };
   }
 );
+
+export const functions = [processTask];

@@ -1,4 +1,4 @@
 // src/inngest/client.ts
 import { Inngest } from "inngest";
 
-export const inngest = new Inngest({ id: "my-app" });
+export const inngest = new Inngest({ id: "codeflow-app" });
