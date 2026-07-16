@@ -3,14 +3,22 @@ import { useState } from 'react'
 import React from 'react'
 
 const page = () => {
+    const [loading, setloading] = useState(false);
+    
     const handleblocking = async () => {
+        setloading(true);
         await fetch("api/chat", { method: "POST" });
-    }
-    const [loading, setloading] = useState("")
-    // setloading("false")
+        setloading(false);
+    };
+
     return (
         <div>
-            <button onClick={handleblocking} className="gradient-btn">Click Me</button>
+            <div className='flex justify-center itme-center mt-100'>
+                <button disabled={loading} onClick={handleblocking} className="gradient-btn">{loading ? "Loading..." : "Blocking"}</button>
+                <div>
+                    <button className="gradient-btn">non-blocking</button>
+                </div>
+            </div>
         </div>
     )
 }

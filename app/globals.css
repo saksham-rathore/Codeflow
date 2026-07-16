@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 .gradient-btn {
   /* The Gradient Background */
   background: linear-gradient(to right, #ff416c, #ff4b2b);

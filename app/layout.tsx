@@ -10,7 +10,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`h-full antialiased`} suppressHydrationWarning>
-      <body className={`antialiased`}>
+      <body className={`antialiased bg-[#010101]`}>
         <ConvexClientProvider>
           {children}
         </ConvexClientProvider>
