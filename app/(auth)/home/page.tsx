@@ -13,16 +13,18 @@ const page = () => {
     };
 
     const handleblocking2 = async () => {
-        setloading(true);
+        setloading2(true);
         await fetch("api/background", { method: "POST" });
-        setloading(false);
+        setloading2(false);
     };
 
     return (
         <div>
             <div className='flex justify-center itme-center mt-100'>
                 <button disabled={loading} onClick={handleblocking} className="gradient-btn">{loading ? "Loading..." : "Blocking"}</button>
-                <button disabled={loading} onClick={handleblocking2} className="gradient-btn">{loading ? "Loading..." : "background"}</button>
+            </div>
+            <div className='flex justify-center itme-center mt-100'>
+                <button disabled={loading} onClick={handleblocking2} className="gradient-btn">{loading2 ? "Loading..." : "background"}</button>
             </div>
         </div>
     )

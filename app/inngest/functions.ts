@@ -8,7 +8,7 @@ export const processTask = inngest.createFunction(
   async ({ event, step }) => {
     const result = await step.run("handle-task", async () => {
       return await generateText({
-        model: google('gemini-flash-latest'),
+        model: google('gemini-2.5-pro'),
         prompt: 'write a vegetarian lasagna recipe for 4 prople.'
       });
     })
