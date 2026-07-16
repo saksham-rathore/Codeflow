@@ -1,17 +1,15 @@
 // src/inngest/functions.ts
+import { generateText } from "ai";
 import { inngest } from "./client";
+import { google } from "@ai-sdk/google";
 
 export const processTask = inngest.createFunction(
-  { id: "process-task", triggers: { event: "app/task.created" } },
+  { id: "process-task", triggers: [{ event: "app/task.created" }] },
   async ({ event, step }) => {
     const result = await step.run("handle-task", async () => {
-      return { processed: true, id: event.data.id };
-    });
-
-    await step.sleep("pause", "1s");
-
-    return { message: `Task ${event.data.id} complete`, result };
-  }
-);
-
-export const functions = [processTask];
+      return await generateText({
+        model: google('gemini-flash-latest'),
+        prompt: 'write a vegetarian lasagna recipe for 4 prople.'
+      });
+    })
+  });
