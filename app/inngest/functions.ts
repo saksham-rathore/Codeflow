@@ -7,9 +7,16 @@ export const processTask = inngest.createFunction(
   { id: "process-task", triggers: [{ event: "app/task.created" }] },
   async ({ event, step }) => {
     const result = await step.run("handle-task", async () => {
-      return await generateText({
-        model: google('gemini-2.5-pro'),
-        prompt: 'write a vegetarian lasagna recipe for 4 prople.'
-      });
+      try {
+        const response = await generateText({
+          model: google("gemini-1.5-flash"),
+          prompt: "write a vegetarian lasagna recipe for 4 people"
+        });
+
+        return response.text;
+      } catch (error) {
+        console.error("gemini error", error)
+        return "Failed to generate response"
+      }
     })
   });
