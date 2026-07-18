@@ -1,4 +1,5 @@
 "use client";
+import { error } from 'console';
 import { useState } from 'react'
 import React from 'react'
 
@@ -18,6 +19,18 @@ const page = () => {
         setloading2(false);
     };
 
+    const handleClientError = () => {
+        throw new Error("Client error: Something Went Wrong in the browser!")
+    };
+
+    const handleApiError = async () => {
+        await fetch("api/background", { method: "POST" });
+    };
+
+    const handleInggestError = async () => {
+        await fetch("app/inngest")
+    };
+
     return (
         <div>
             <div className='flex justify-center itme-center mt-100'>
@@ -25,6 +38,13 @@ const page = () => {
             </div>
             <div className='flex justify-center itme-center mt-100'>
                 <button disabled={loading} onClick={handleblocking2} className="gradient-btn">{loading2 ? "Loading..." : "background"}</button>
+            </div>
+            <div className='flex justify-center itme-center mt-100'>
+                <button
+                    onClick={handleClientError}
+                    className='gradient-btn'>
+                    Client Error
+                </button>
             </div>
         </div>
     )
