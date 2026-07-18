@@ -29,6 +29,11 @@ export const processTask = inngest.createFunction(
           
           ${page.markdown}
           `,
+          experimental_telemetry: {
+            isEnabled: true,
+            recordInputs: true,
+            recordOutputs: true,
+          }
         });
 
         return response.text;

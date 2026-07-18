@@ -19,4 +19,5 @@ Sentry.init({
     // userInfo: false,
     // httpBodies: [],
   },
+  integrations: [Sentry.vercelAIIntegration()],
 });

@@ -14,6 +14,9 @@ importers:
       '@ai-sdk/groq':
         specifier: ^4.0.12
         version: 4.0.12(zod@4.4.3)
+      '@inngest/middleware-sentry':
+        specifier: ^1.0.0
+        version: 1.0.0(@sentry/core@10.66.0)(@sentry/types@10.66.0)(inngest@4.12.1(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(hono@4.12.28)(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(zod@4.4.3))
       '@prisma/adapter-pg':
         specifier: ^7.8.0
         version: 7.8.0
@@ -673,6 +676,13 @@ packages:
 
   '@inngest/ai@0.1.7':
     resolution: {integrity: sha512-5xWatW441jacGf9czKEZdgAmkvoy7GS2tp7X8GSbdGeRXzjisHR6vM+q8DQbv6rqRsmQoCQ5iShh34MguELvUQ==}
+
+  '@inngest/middleware-sentry@1.0.0':
+    resolution: {integrity: sha512-xuuekopFcLcL3+9aEy9b4bZV9d7TEivgFmwQ3RJmXVdOnf+3LAHgkWFO7pnyREg5GTGI0sj2H8N4Rw0ILN05Dg==}
+    peerDependencies:
+      '@sentry/core': '>=8.0.0'
+      '@sentry/types': '>=8.0.0'
+      inngest: '>=4.0.0-alpha.6 <5.0.0'
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1734,6 +1744,10 @@ packages:
 
   '@sentry/server-utils@10.66.0':
     resolution: {integrity: sha512-h9EM9Wz9Mc6w2Vn7Fyh6ozjy4JC2UbUvWf9Ra1HYA4KMeYqjFA5/o0oB4pg4w/TF+rb+9OF/HNqxjuczxpudpA==}
+    engines: {node: '>=18'}
+
+  '@sentry/types@10.66.0':
+    resolution: {integrity: sha512-NH+3vp15vt7dHX1M32CsAHlf3BWU25/1pJOFW9O2565A269nKylB09V4kDm0XH2ARGgv6wPcNFPhbiTByv7HgA==}
     engines: {node: '>=18'}
 
   '@sentry/vercel-edge@10.66.0':
@@ -4877,6 +4891,12 @@ snapshots:
       '@types/node': 22.20.1
       typescript: 5.9.3
 
+  '@inngest/middleware-sentry@1.0.0(@sentry/core@10.66.0)(@sentry/types@10.66.0)(inngest@4.12.1(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(hono@4.12.28)(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(zod@4.4.3))':
+    dependencies:
+      '@sentry/core': 10.66.0
+      '@sentry/types': 10.66.0
+      inngest: 4.12.1(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(hono@4.12.28)(next@16.2.10(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(zod@4.4.3)
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -6143,6 +6163,10 @@ snapshots:
       '@sentry/core': 10.66.0
     transitivePeerDependencies:
       - supports-color
+
+  '@sentry/types@10.66.0':
+    dependencies:
+      '@sentry/core': 10.66.0
 
   '@sentry/vercel-edge@10.66.0':
     dependencies:

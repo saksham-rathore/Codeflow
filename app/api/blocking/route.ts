@@ -5,6 +5,11 @@ export async function POST() {
     const response = await generateText({
         model: groq("llama-3.3-70b-versatile"),
         prompt: "how can I become an ai engineer",
+        experimental_telemetry: {
+            isEnabled: true,
+            recordInputs: true,
+            recordOutputs: true,
+        }
     })
 
     return Response.json({ Response });
