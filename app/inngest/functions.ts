@@ -34,15 +34,11 @@ import { firecrawl } from "@/lib/firecrawl";
 export const processTask = inngest.createFunction(
   { id: "process-task", triggers: [{ event: "app/task.created" }] },
   async ({ event, step }) => {
-
-    // Step 1: Scrape the website. 
-    // Once successful, Inngest caches 'page'. It will never re-scrape on a retry of Step 2.
+    
     const page = await step.run("scrape-website", async () => {
       return await firecrawl.scrape("https://nextjs.org/docs");
     });
 
-    // Step 2: Call Gemini API.
-    // If Gemini fails, only this step is retried.
     const responseText = await step.run("summarize-website", async () => {
       const response = await generateText({
         model: google("gemini-1.5-flash"),
