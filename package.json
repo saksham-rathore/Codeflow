@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.16",
+    "@ai-sdk/groq": "^4.0.12",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "ai": "^7.0.28",
