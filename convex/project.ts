@@ -3,7 +3,7 @@ import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { auth } from "@/lib/auth";
 
-export const updateSettings = internalMutation({
+export const updateSettings = mutation({
     args: {
         id: v.id("projects"),
         settings: v.object({
@@ -12,7 +12,7 @@ export const updateSettings = internalMutation({
         })
     },
     handler: async (ctx, args) => {
-        // User verify only 
+        // User verify only
 
         const project = await ctx.db.get("projects", args.id)
 
@@ -39,7 +39,21 @@ export const create = internalMutation({
             updatedAt: Date.now(),
             ownerId: args.ownerId,
         });
-
         return projectId;
+    },
+});
+
+    
+export const getPartial = query({
+    args: {
+        limit: v.number(),
+        ownerId: v.string(),
+    },
+    handler: async (ctx, args) => {
+        return await ctx.db
+          .query("projects")
+          .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+          .order("desc")
+          .take(args.limit);
     },
 });
