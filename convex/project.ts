@@ -43,7 +43,7 @@ export const create = internalMutation({
     },
 });
 
-    
+
 export const getPartial = query({
     args: {
         limit: v.number(),
@@ -51,9 +51,66 @@ export const getPartial = query({
     },
     handler: async (ctx, args) => {
         return await ctx.db
-          .query("projects")
-          .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
-          .order("desc")
-          .take(args.limit);
+            .query("projects")
+            .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+            .order("desc")
+            .take(args.limit);
+    },
+});
+
+export const get = query({
+    args: {
+        ownerId: v.string(),
+    },
+    handler: async (ctx, args) => {
+        return await ctx.db
+            .query("projects")
+            .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+            .order("desc")
+            .collect();
+    },
+});
+
+export const getById = query({
+    args: {
+        id: v.id("projects"),
+        ownerId: v.string()
+    },
+    handler: async (ctx, args) => {
+        const project = await ctx.db.get("projects", args.id);
+
+        if (!project) {
+            throw new Error("Project not found");
+        }
+
+        if (project.ownerId !== args.ownerId) {
+            throw new Error("Unauthorized access to this project")
+        }
+
+        return project;
+    },
+});
+
+export const rename = mutation({
+    args: {
+        name: v.string(),
+        id: v.id("projects"),
+        ownerId: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const project = await ctx.db.get("projects", args.id);
+
+        if (!project) {
+            throw new Error("Project not found");
+        }
+
+        if (project.ownerId !== args.ownerId) {
+            throw new Error("Unauthorized access to this project");
+        }
+
+        await ctx.db.patch("projects", args.id, {
+            name: args.name,
+            updatedAt: Date.now(),
+        });
     },
 });
