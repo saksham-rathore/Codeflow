@@ -1,33 +1,45 @@
 import { Query } from "convex/server";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { auth } from "@/lib/auth";
 
-export const getProject = query({
+export const updateSettings = internalMutation({
     args: {
-        userId: v.string(),
+        id: v.id("projects"),
+        settings: v.object({
+            installCommand: v.optional(v.string()),
+            devCommand: v.optional(v.string()),
+        })
     },
-
     handler: async (ctx, args) => {
-        return await ctx.db
-            .query("project")
-            .filter((q) =>
-                q.eq(q.field("userId"), args.userId)
-            )
-            .collect();
+        // User verify only 
+
+        const project = await ctx.db.get("projects", args.id)
+
+        if (!project) {
+            throw new Error("Project not found");
+        }
+
+        await ctx.db.patch("projects", args.id, {
+            settings: args.settings,
+            updatedAt: Date.now(),
+        });
     },
 });
 
-
-export const createproject = mutation({
+export const create = mutation({
     args: {
-        userId: v.string(),
         name: v.string(),
-        description: v.string(),
+        ownerId: v.string(),
     },
     handler: async (ctx, args) => {
-        return await ctx.db.insert("project", {
-            ...args,
-            createdAt: Date.now(),
+
+        const projectId = await ctx.db.insert("projects", {
+            name: args.name,
+            updatedAt: Date.now(),
+            ownerId: args.ownerId,
         });
+
+        return projectId;
     },
 });
