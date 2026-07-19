@@ -2,6 +2,7 @@ import { Query } from "convex/server";
 import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { auth } from "@/lib/auth";
+import { verifyAuth } from "./auth";
 
 export const updateSettings = mutation({
     args: {
@@ -12,12 +13,16 @@ export const updateSettings = mutation({
         })
     },
     handler: async (ctx, args) => {
-        // User verify only
+        const identity = await verifyAuth(ctx);
 
         const project = await ctx.db.get("projects", args.id)
 
         if (!project) {
             throw new Error("Project not found");
+        }
+
+        if (project.ownerId !== identity.subject) {
+            throw new Error("Unauthorized to update this project");
         }
 
         await ctx.db.patch("projects", args.id, {
@@ -33,6 +38,8 @@ export const create = internalMutation({
         ownerId: v.string(),
     },
     handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
 
         const projectId = await ctx.db.insert("projects", {
             name: args.name,
@@ -50,6 +57,8 @@ export const getPartial = query({
         ownerId: v.string(),
     },
     handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
         return await ctx.db
             .query("projects")
             .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
@@ -63,6 +72,8 @@ export const get = query({
         ownerId: v.string(),
     },
     handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
         return await ctx.db
             .query("projects")
             .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
@@ -74,16 +85,17 @@ export const get = query({
 export const getById = query({
     args: {
         id: v.id("projects"),
-        ownerId: v.string()
     },
     handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
         const project = await ctx.db.get("projects", args.id);
 
         if (!project) {
             throw new Error("Project not found");
         }
 
-        if (project.ownerId !== args.ownerId) {
+        if (project.ownerId !== identity.subject) {
             throw new Error("Unauthorized access to this project")
         }
 
@@ -95,16 +107,17 @@ export const rename = mutation({
     args: {
         name: v.string(),
         id: v.id("projects"),
-        ownerId: v.string(),
     },
     handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
         const project = await ctx.db.get("projects", args.id);
 
         if (!project) {
             throw new Error("Project not found");
         }
 
-        if (project.ownerId !== args.ownerId) {
+        if (project.ownerId !== identity.subject) {
             throw new Error("Unauthorized access to this project");
         }
 
