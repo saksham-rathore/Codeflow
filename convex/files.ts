@@ -50,3 +50,66 @@ export const getFile = query({
         return file;
     }
 })
+
+/**
+ * Builds the full path to a file by traversing up the parent chain.
+ *
+ * Input:  A file ID (e.g., the ID of "button.tsx")
+ * Output: Array of ancestors from root to file: [{ _id, name: "src" }, { _id, name: "components" }, { _id, name: "button.tsx" }]
+ *
+ * Used for: Breadcrumbs navigation (src > components > button.tsx)
+ */
+
+export const getFilePath = query({
+    args: {
+        id: v.id("files"),
+    },
+    handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
+        const file = await ctx.db.get("files", args.id);
+
+        if (!file) {
+            throw new Error("File not found");
+        }
+
+        const project = await ctx.db.get("projects", file.projectId);
+
+        if (!project) {
+            throw new Error("Project not found");
+        }
+
+        if (project.ownerId !== identity.subject) {
+            throw new Error("Unauthorized to access this project");
+        }
+
+        // here code is missing
+    },
+});
+
+// export const getFilePath = query({
+//     args: {
+
+//     },
+//     handler: async (ctx, args) => {
+
+//     },
+// });
+
+// export const getFilePath = query({
+//     args: {
+
+//     },
+//     handler: async (ctx, args) => {
+
+//     },
+// });
+
+// export const getFilePath = query({
+//     args: {
+
+//     },
+//     handler: async (ctx, args) => {
+
+//     },
+// });
