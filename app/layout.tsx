@@ -2,7 +2,6 @@
 import "./globals.css";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 
-
 export default function RootLayout({
   children,
 }: Readonly<{

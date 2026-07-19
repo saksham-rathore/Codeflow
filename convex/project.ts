@@ -27,7 +27,7 @@ export const updateSettings = internalMutation({
     },
 });
 
-export const create = mutation({
+export const create = internalMutation({
     args: {
         name: v.string(),
         ownerId: v.string(),

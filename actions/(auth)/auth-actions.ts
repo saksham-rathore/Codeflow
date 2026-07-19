@@ -1,10 +1,6 @@
 "use server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-// import { email } from "better-auth";
-// import { PrismaClient } from "@prisma/client";
-
-// export const db = new  PrismaClient();
 
 export const SignUp = async (name: string, email: string, password: string) => {
   const result = await auth.api.signUpEmail({
