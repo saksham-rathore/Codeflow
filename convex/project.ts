@@ -53,6 +53,7 @@ export const create = mutation({
 export const getPartial = query({
     args: {
         limit: v.number(),
+        ownerId: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
         const identity = await verifyAuth(ctx);

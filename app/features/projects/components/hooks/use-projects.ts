@@ -8,7 +8,7 @@ export const useProject = (projectId: Id<"projects">) => {
 };
 
 export const useProjects = () => {
-    return useQuery(api.project.get);
+    return useQuery(api.project.get, {});
 };
 
 export const useProjectsPartial = (limit: number) => {
