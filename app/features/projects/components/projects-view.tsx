@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import { Svg } from "./Svg";
 import { SparkleIcon } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { ProjectList } from "./project-list";
 
 const font = Poppins({
     subsets: ["latin"],
@@ -31,6 +32,7 @@ export const ProjectsView = () => {
                     </div>
                 </div>
             </div>
+            <ProjectList onViewAll={() => {}}/>
         </div>
     );
 };

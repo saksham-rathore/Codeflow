@@ -32,10 +32,9 @@ export const updateSettings = mutation({
     },
 });
 
-export const create = internalMutation({
+export const create = mutation({
     args: {
         name: v.string(),
-        ownerId: v.string(),
     },
     handler: async (ctx, args) => {
         const identity = await verifyAuth(ctx);
@@ -44,7 +43,7 @@ export const create = internalMutation({
         const projectId = await ctx.db.insert("projects", {
             name: args.name,
             updatedAt: Date.now(),
-            ownerId: args.ownerId,
+            ownerId: identity.subject,
         });
         return projectId;
     },
@@ -54,29 +53,26 @@ export const create = internalMutation({
 export const getPartial = query({
     args: {
         limit: v.number(),
-        ownerId: v.string(),
     },
     handler: async (ctx, args) => {
         const identity = await verifyAuth(ctx);
 
         return await ctx.db
             .query("projects")
-            .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+            .withIndex("by_owner", (q) => q.eq("ownerId", identity.subject))
             .order("desc")
             .take(args.limit);
     },
 });
 
 export const get = query({
-    args: {
-        ownerId: v.string(),
-    },
+    args: {},
     handler: async (ctx, args) => {
         const identity = await verifyAuth(ctx);
 
         return await ctx.db
             .query("projects")
-            .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+            .withIndex("by_owner", (q) => q.eq("ownerId", identity.subject))
             .order("desc")
             .collect();
     },
