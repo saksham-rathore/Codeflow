@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -9,13 +10,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <ClerkProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange>
+
+            {children}
+
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
