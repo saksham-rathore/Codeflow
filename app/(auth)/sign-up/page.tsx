@@ -6,22 +6,45 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  // <input value={name} onChange={(e) => setName(e.target.value)} />;
-
-  // <input value={email} onChange={(e) => setEmail(e.target.value)} />;
-
-  // <input
-  //   type="password"
-  //   value={password}
-  //   onChange={(e) => setPassword(e.target.value)}
-  // />;
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
 
-    const result = await SignUp(name, email, password);
-    console.log(result);
+    if (!name.trim()) {
+      setError("Name is required");
+      return;
+    }
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result = await SignUp(name, email, password);
+      if (result.success) {
+        window.location.href = "/";
+      } else {
+        setError(result.error || "Failed to create account");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
@@ -58,6 +81,12 @@ export default function SignUpPage() {
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {error && (
+            <div className="bg-red-950/50 border border-red-900 text-red-200 rounded-lg p-3 text-sm text-center">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm text-zinc-300 mb-2">
               Full Name
@@ -66,8 +95,9 @@ export default function SignUpPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              disabled={loading}
               placeholder="John Doe"
-              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
+              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
           </div>
 
@@ -77,8 +107,9 @@ export default function SignUpPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
               placeholder="john@example.com"
-              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
+              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
           </div>
 
@@ -88,8 +119,9 @@ export default function SignUpPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
               placeholder="••••••••"
-              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
+              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
           </div>
 
@@ -98,19 +130,21 @@ export default function SignUpPage() {
               Confirm Password
             </label>
             <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               type="password"
+              disabled={loading}
               placeholder="••••••••"
-              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
+              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-zinc-200 transition"
+            disabled={loading}
+            className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-zinc-200 transition disabled:opacity-50"
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 

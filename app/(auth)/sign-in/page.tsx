@@ -6,14 +6,27 @@ import { useState } from "react";
 export default function SignInPage() {
   const [email, setemail] = useState("")
   const [password, setpassword] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const result = await SignIn(email, password);
-    console.log(result);
+    try {
+      const result = await SignIn(email, password);
+      if (result.success) {
+        window.location.href = "/";
+      } else {
+        setError(result.error || "Invalid email or password");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
-
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-2xl p-8">
@@ -43,14 +56,22 @@ export default function SignInPage() {
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {error && (
+            <div className="bg-red-950/50 border border-red-900 text-red-200 rounded-lg p-3 text-sm text-center">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="text-sm text-zinc-300 block mb-2">Email</label>
 
             <input
               value={email}
+              onChange={(e) => setemail(e.target.value)}
               type="email"
+              disabled={loading}
               placeholder="john@example.com"
-              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
+              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
           </div>
 
@@ -59,17 +80,20 @@ export default function SignInPage() {
 
             <input
               value={password}
+              onChange={(e) => setpassword(e.target.value)}
               type="password"
+              disabled={loading}
               placeholder="••••••••"
-              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition"
+              className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-zinc-200 transition"
+            disabled={loading}
+            className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-zinc-200 transition disabled:opacity-50"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
