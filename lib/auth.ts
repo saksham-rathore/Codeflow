@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, jwt } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";

@@ -23,16 +23,16 @@ export const ProjectsView = () => {
                     <div className="h-40 w-70 border border-gray-800 bg-[oklch(14.8%_0.004_228.8)] rounded-xl">
                         <div className="m-5">
                             <SparkleIcon className="text-gray-300" size={35} />
-                            <h1 className="text-xl font-bold mt-13">New</h1>
+                            <h1 className={`text-xl font-bold mt-13 ${font.className}`}>New</h1>
                         </div>
                     </div>
                     <div className="h-40 w-70 border border-gray-800 bg-[oklch(14.8%_0.004_228.8)] rounded-xl">
                         <FaGithub className="m-5 text-gray-300" size={35} />
-                        <h1 className="text-xl font-bold mt-13 ml-5">Import</h1>
+                        <h1 className={`text-xl font-bold mt-13 ml-5 ${font.className}`}>Import</h1>
                     </div>
                 </div>
             </div>
-            <ProjectList onViewAll={() => {}}/>
+            <ProjectList onViewAll={() => { }} />
         </div>
     );
 };
