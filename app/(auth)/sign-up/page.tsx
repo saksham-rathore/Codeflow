@@ -1,51 +1,8 @@
 "use client";
+import { error } from "console";
 import React, { useState } from "react";
-import { SignUp } from "@/actions/(auth)/auth-actions";
 
 export default function SignUpPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
-
-    if (!name.trim()) {
-      setError("Name is required");
-      return;
-    }
-    if (!email.trim()) {
-      setError("Email is required");
-      return;
-    }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const result = await SignUp(name, email, password);
-      if (result.success) {
-        window.location.href = "/";
-      } else {
-        setError(result.error || "Failed to create account");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-2xl p-8">
@@ -80,12 +37,12 @@ export default function SignUpPage() {
         </div>
 
         {/* Form */}
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-950/50 border border-red-900 text-red-200 rounded-lg p-3 text-sm text-center">
-              {error}
-            </div>
-          )}
+        <form className="space-y-4">
+
+          <div className="bg-red-950/50 border border-red-900 text-red-200 rounded-lg p-3 text-sm text-center">
+
+          </div>
+
 
           <div>
             <label className="block text-sm text-zinc-300 mb-2">
@@ -93,9 +50,9 @@ export default function SignUpPage() {
             </label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={loading}
+
+
+
               placeholder="John Doe"
               className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
@@ -105,9 +62,7 @@ export default function SignUpPage() {
             <label className="block text-sm text-zinc-300 mb-2">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={loading}
+
               placeholder="john@example.com"
               className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
@@ -117,9 +72,7 @@ export default function SignUpPage() {
             <label className="block text-sm text-zinc-300 mb-2">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={loading}
+
               placeholder="••••••••"
               className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
@@ -130,10 +83,9 @@ export default function SignUpPage() {
               Confirm Password
             </label>
             <input
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+
               type="password"
-              disabled={loading}
+
               placeholder="••••••••"
               className="w-full bg-black border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-white transition disabled:opacity-50"
             />
@@ -141,10 +93,10 @@ export default function SignUpPage() {
 
           <button
             type="submit"
-            disabled={loading}
+
             className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-zinc-200 transition disabled:opacity-50"
           >
-            {loading ? "Creating Account..." : "Create Account"}
+
           </button>
         </form>
 
