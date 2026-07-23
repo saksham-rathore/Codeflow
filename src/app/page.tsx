@@ -1,11 +1,17 @@
-import React from 'react'
+"use client";
 
-const page = () => {
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import type { Doc } from "../../convex/_generated/dataModel";
+
+export default function Home() {
+  const tasks = useQuery((api as any).tasks.get) as Doc<"tasks">[] | undefined;
+
   return (
-    <div>
-      Page
-    </div>
-  )
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      {tasks?.map(({ _id, text }) => (
+        <div key={_id}>{text}</div>
+      ))}
+    </main>
+  );
 }
-
-export default page

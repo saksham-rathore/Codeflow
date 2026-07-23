@@ -11,19 +11,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ConvexClientProvider>
-          <ClerkProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange>
-
+        <ClerkProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange>
+            <ConvexClientProvider>
               {children}
-
-            </ThemeProvider>
-          </ClerkProvider>
-        </ConvexClientProvider>
+            </ConvexClientProvider>
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
