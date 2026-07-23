@@ -1,5 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 import "./globals.css";
 
 export default function RootLayout({
@@ -10,17 +11,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ClerkProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange>
+        <ConvexClientProvider>
+          <ClerkProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange>
 
-            {children}
+              {children}
 
-          </ThemeProvider>
-        </ClerkProvider>
+            </ThemeProvider>
+          </ClerkProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );
