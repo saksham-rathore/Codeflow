@@ -20,28 +20,21 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
     return (
         <ClerkProvider>
             <ConvexProviderWithClerk client={convex} useAuth={useAuth} >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <Authenticated>
-                        <ThemeProvider
-                            attribute="class"
-                            defaultTheme="dark"
-                            enableSystem
-                            disableTransitionOnChange>
-                            {children}
-                        </ThemeProvider>
-                    </Authenticated>
-                    < Unauthenticated >
-                        <UnauthenticatedView />
-                    </Unauthenticated>
-                    < AuthLoading >
-                        <AuthLoadingView />
-                    </AuthLoading>
-                </ThemeProvider>
+                <Authenticated>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="dark"
+                        enableSystem
+                        disableTransitionOnChange>
+                        {children}
+                    </ThemeProvider>
+                </Authenticated>
+                < Unauthenticated >
+                    <UnauthenticatedView />
+                </Unauthenticated>
+                < AuthLoading >
+                    <AuthLoadingView />
+                </AuthLoading>
             </ConvexProviderWithClerk>
         </ClerkProvider>
     );
