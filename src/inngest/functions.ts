@@ -1,11 +1,11 @@
 // src/inngest/functions.ts
-import { inngest } from "./client";
+import { inngest } from './client';
 import { groq } from '@ai-sdk/groq';
 import { generateText } from "ai";
 
 export const processTask = inngest.createFunction(
 
-    { id: "process-task", triggers: { event: "app/task.created" } },
+    { id: "codeflow", triggers: { event: "app/task.created" } },
 
     async ({ event, step }) => {
 

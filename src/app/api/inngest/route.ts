@@ -7,3 +7,5 @@ export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [processTask],
 });
+
+export const dynamic = "force-dynamic";
