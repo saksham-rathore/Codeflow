@@ -1,7 +1,12 @@
 // src/inngest/functions.ts
+import { firecrawl } from '@/lib/firecrawl';
 import { inngest } from './client';
 import { groq } from '@ai-sdk/groq';
 import { generateText } from "ai";
+import { Firecrawl } from 'firecrawl';
+import { url } from 'inspector';
+
+const URL_REGEX = /https?:\/\/[^\s]+/g;
 
 export const processTask = inngest.createFunction(
 
@@ -9,12 +14,35 @@ export const processTask = inngest.createFunction(
 
     async ({ event, step }) => {
 
-        const result = await step.run("handle-task", async () => {
+        const { prompt } = event.data as { prompt: string }
 
+        const urls = await step.run("extract-urls", async () => {
+            return prompt.match(URL_REGEX) ?? [];
+        }) as string[];
+
+        const scrapedContent = await step.run("scrape-urls", async () => {
+            const result = await Promise.all(
+                urls.map(async (url) => {
+                    const result = await firecrawl.scrape(
+                        url,
+                        { formats: ["markdown"] },
+                    );
+                    return result.markdown ?? null
+                })
+            );
+            return result.filter(Boolean).join("\n\n");
+        })
+
+        const finalPrompt = scrapedContent
+            ? `Context:\n${scrapedContent}\n\nQuestion: ${prompt}`
+            : prompt;
+
+
+        const result = await step.run("handle-task", async () => {
 
             const response = await generateText({
                 model: groq("llama-3.3-70b-versatile"),
-                prompt: "How do I become an AI engineer?",
+                prompt: finalPrompt,
             });
 
             return {
