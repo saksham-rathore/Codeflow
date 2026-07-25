@@ -3,8 +3,6 @@ import { firecrawl } from '@/lib/firecrawl';
 import { inngest } from './client';
 import { groq } from '@ai-sdk/groq';
 import { generateText } from "ai";
-import { Firecrawl } from 'firecrawl';
-import { url } from 'inspector';
 
 const URL_REGEX = /https?:\/\/[^\s]+/g;
 
