@@ -41,6 +41,11 @@ export const processTask = inngest.createFunction(
             const response = await generateText({
                 model: groq("llama-3.3-70b-versatile"),
                 prompt: finalPrompt,
+                experimental_telemetry: {
+                    isEnabled: true,
+                    recordInputs: true,
+                    recordOutputs: true
+                }
             });
 
             return {
