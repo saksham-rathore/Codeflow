@@ -16,7 +16,7 @@ const font = Poppins({
     weight: ["400", "500", "600", "700"],
 })
 
-const page = () => {
+export const ProjectsView = () => {
     return (
         <>
             <div className="min-h-screen bg-sidebar flex flex-col items-center justify-center p-6 md:p-16">
@@ -83,5 +83,3 @@ const page = () => {
         </>
     );
 };
-
-export default page

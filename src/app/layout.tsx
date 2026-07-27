@@ -26,7 +26,8 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   // const isAuthPage = pathname?.startsWith("/sign-in") || pathname?.startsWith("/sign-up");
-  const isAuthPage = pathname?.startsWith("/sign-in") || pathname?.startsWith("/sign-up") || pathname === "/home" || pathname?.startsWith("/home/");
+  // const isAuthPage = pathname?.startsWith("/sign-in") || pathname?.startsWith("/sign-up") || pathname === "/home" || pathname?.startsWith("/home/");
+  const isAuthPage = pathname === "/" || pathname === "/" || pathname?.startsWith("/") || pathname?.startsWith("/sign-in") || pathname?.startsWith("/sign-up");
 
   return (
     <html lang="en" suppressHydrationWarning>
