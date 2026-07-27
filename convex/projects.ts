@@ -1,3 +1,4 @@
+
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { verifyAuth } from "./auth";
@@ -105,7 +106,7 @@ export const getPartial = query({
 });
 
 
-export const getbyId = query({
+export const getById = query({
     args: {
         id: v.id("projects")
     },
