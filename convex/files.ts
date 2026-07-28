@@ -91,26 +91,6 @@ export const getFilePath = query({
     }
 });
 
-export const RenameFile = query({
-    args: {
-
-    },
-    handler: async (ctx, args) => {
-
-    }
-});
-
-
-export const RenameFolder = query({
-    args: {
-
-    },
-    handler: async (ctx, args) => {
-
-    }
-});
-
-
 export const create = mutation({
     args: {
         name: v.string(),
