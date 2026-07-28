@@ -11,6 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 
 
+import { ProjectList } from './projects-list';
+import { ProjectsCommandDialog } from './projects-command-dialogue';
+// import { ImportGithubDialog } from "./import-github-dialog";
+// import { NewProjectDialog } from "./new-project-dialog";
+
+
 const font = Poppins({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
