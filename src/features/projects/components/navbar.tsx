@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { CloudCheckIcon, LoaderIcon } from "lucide-react";
+import { CloudCheckIcon, Ghost, LoaderIcon } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import { formatDistanceToNow } from "date-fns";
@@ -39,4 +39,41 @@ export const Navbar = ({
 }: {
     projectId: Id<"projects">
 }) => {
+    return (
+        <nav className="flex justify-between items-center gap-x-2 p-2 bg-sidebar border-b">
+            <div className="flex items-center gap-x-2">
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink
+                            className="flex items-center gap-1.5"
+                            asChild
+                        >
+                            <Button
+                                variant="ghost"
+                                className="w-fit! p-1.5! h-7!"
+                                asChild
+                            >
+                                <Link href="/">
+                                    <Image
+                                        src="/logo.svg"
+                                        alt="Logo"
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <span
+                                        className={cn(
+                                            "text-sm font-medium",
+                                            font.className,
+                                        )}
+                                    >
+                                        Codeflow
+                                    </span>
+                                </Link>
+                            </Button>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </div>
+        </nav>
+    )
 };
