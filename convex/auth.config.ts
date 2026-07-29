@@ -4,7 +4,7 @@ export default {
     providers: [
         {
             domain: process.env.CLERK_JWT_ISSUER_DOMAIN!,
-            applicationID: "codeflow",
+            applicationID: "convex",
         },
     ],
 } satisfies AuthConfig;
