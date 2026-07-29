@@ -20,7 +20,7 @@ import { ProjectsCommandDialog } from './projects-command-dialogue';
 const font = Poppins({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
-})
+});
 
 export const ProjectsView = () => {
     const [commandDialogOpen, setCommandDialogOpen] = useState(false);
@@ -53,7 +53,6 @@ export const ProjectsView = () => {
 
     }, []);
 
-
     return (
         <>
             <ProjectsCommandDialog
@@ -67,7 +66,7 @@ export const ProjectsView = () => {
 
                         <div className="flex items-center gap-2 w-full group/logo">
                             <div>
-                                <svg width="45" height="45" viewBox="0 0 469 407" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="40" height="40" viewBox="0 0 469 407" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M234.375 0L468.75 406.25H0L234.375 0Z" fill="white" />
                                 </svg>
                             </div>
@@ -100,6 +99,7 @@ export const ProjectsView = () => {
                                     </span>
                                 </div>
                             </Button>
+
                             <Button
                                 variant="outline"
                                 onClick={() => setImportDialogOpen(true)}

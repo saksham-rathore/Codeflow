@@ -36,39 +36,28 @@ export default function RootLayout({
           }}
         >
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-            {isAuthPage ? (
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="dark"
-                enableSystem
-                disableTransitionOnChange
-              >
-                <Providers>
-                  {children}
-                </Providers>
-              </ThemeProvider>
-            ) : (
-              <>
-                <Authenticated>
-                  <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                  >
-                    <Providers>
-                      {children}
-                    </Providers>
-                  </ThemeProvider>
-                </Authenticated>
-                <Unauthenticated>
-                  <UnauthenticatedView />
-                </Unauthenticated>
-                <AuthLoading>
-                  <AuthLoadingView />
-                </AuthLoading>
-              </>
-            )}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Providers>
+                {isAuthPage ? (
+                  children
+                ) : (
+                  <>
+                    <Authenticated>{children}</Authenticated>
+                    <Unauthenticated>
+                      <UnauthenticatedView />
+                    </Unauthenticated>
+                    <AuthLoading>
+                      <AuthLoadingView />
+                    </AuthLoading>
+                  </>
+                )}
+              </Providers>
+            </ThemeProvider>
           </ConvexProviderWithClerk>
         </ClerkProvider>
       </body>
