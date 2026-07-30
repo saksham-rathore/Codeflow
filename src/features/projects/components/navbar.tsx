@@ -37,40 +37,16 @@ const font = Poppins({
 export const Navbar = ({
     projectId
 }: {
-    projectId: Id<"projects">;
+    projectId: Id<"projects">
 }) => {
     const project = useProject(projectId);
     const renameProject = useRenameProject();
 
     const [isRenaming, setIsRenaming] = useState(false);
-    const [name, setName] = useState("");
-
-    const handleStartRename = () => {
-        if (!project) return;
-        setName(project.name);
-        setIsRenaming(true);
-    };
-
-    const handleSubmit = () => {
-        if (!project) return;
-        setIsRenaming(false);
-
-        const trimmedName = name.trim();
-        if (!trimmedName || trimmedName === project.name) return;
-
-        renameProject({ id: projectId, name: trimmedName });
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter") {
-            handleSubmit();
-        } else if (e.key === "Escape") {
-            setIsRenaming(false);
-        }
-    };
+    const [name, setname] = useState("");
 
     return (
-        <nav className="flex justify-between items-center gap-x-2 p-2 bg-sidebar border-b">
+        <nav className="flex justify-between items-center gap-x-2 p-4 bg-sidebar border-b">
             <div className="flex items-center gap-x-2">
                 <Breadcrumb>
                     <BreadcrumbList className="gap-0!">
@@ -93,11 +69,11 @@ export const Navbar = ({
                                         />
                                         <span
                                             className={cn(
-                                                "text-sm font-medium",
+                                                "text-2xl font-medium tracking-tight",
                                                 font.className,
                                             )}
                                         >
-                                            Polaris
+                                            Codeflow
                                         </span>
                                     </Link>
                                 </Button>
@@ -109,17 +85,12 @@ export const Navbar = ({
                                 <input
                                     autoFocus
                                     type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
                                     onFocus={(e) => e.currentTarget.select()}
-                                    onBlur={handleSubmit}
-                                    onKeyDown={handleKeyDown}
-                                    className="text-sm bg-transparent text-foreground outline-none focus:ring-1 focus:ring-inset focus:ring-ring font-medium max-w-40 truncate"
+                                    className="text-xl bg-transparent text-foreground outline-none focus:ring-1 focus:ring-inset focus:ring-ring font-medium max-w-40 truncate"
                                 />
                             ) : (
                                 <BreadcrumbPage
-                                    onClick={handleStartRename}
-                                    className="text-sm cursor-pointer hover:text-primary font-medium max-w-40 truncate"
+                                    className="text-xl pl-4 justify-center cursor-pointer hover:text-primary font-medium max-w-40 truncate"
                                 >
                                     {project?.name ?? "Loading..."}
                                 </BreadcrumbPage>
@@ -127,32 +98,6 @@ export const Navbar = ({
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                {project?.importstatus === "importing" ? (
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <LoaderIcon className="size-4 text-muted-foreground animate-spin" />
-                        </TooltipTrigger>
-                        <TooltipContent>Importing...</TooltipContent>
-                    </Tooltip>
-                ) : (
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <CloudCheckIcon className="size-4 text-muted-foreground" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            Saved{" "}
-                            {project?.updatedAt
-                                ? formatDistanceToNow(
-                                    project.updatedAt,
-                                    { addSuffix: true, }
-                                )
-                                : "Loading..."}
-                        </TooltipContent>
-                    </Tooltip>
-                )}
-            </div>
-            <div className="flex items-center gap-2">
-                <UserButton />
             </div>
         </nav>
     )

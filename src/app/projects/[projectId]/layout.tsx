@@ -12,7 +12,7 @@ const Layout = async ({
 
     return (
         <ProjectIdLayout projectId={projectId as Id<"projects">}>
-            {children}
+        { children }
         </ProjectIdLayout>
     );
 };

@@ -120,7 +120,8 @@ export const getById = query({
         };
 
         if (project.ownerId !== identity.subject) {
-            throw new Error("Unauthorized access to this project")
+            console.error(`Unauthorized access: project ownerId is "${project.ownerId}", but authenticated user is "${identity.subject}"`);
+            throw new Error(`Unauthorized access to this project. Owner: ${project.ownerId}, Current User: ${identity.subject}`);
         };
 
         return project;
