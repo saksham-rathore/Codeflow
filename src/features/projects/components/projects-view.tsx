@@ -66,9 +66,7 @@ export const ProjectsView = () => {
 
                         <div className="flex items-center gap-2 w-full group/logo">
                             <div>
-                                <svg width="40" height="40" viewBox="0 0 469 407" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M234.375 0L468.75 406.25H0L234.375 0Z" fill="white" />
-                                </svg>
+                                <img src="logo.svg" alt="Codeflow" className="size-[32px] md:size-[46px]" />
                             </div>
                             <h1 className={cn(
                                 "text-3xl md:text-4xl font-semibold tracking-tight",

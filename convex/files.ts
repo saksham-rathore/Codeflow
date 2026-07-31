@@ -53,14 +53,43 @@ export const getFile = query({
         return file;
     }
 });
+
 /**
  * Builds the full path to a file by traversing up the parent chain.
- *
- * Input:  A file ID (e.g., the ID of "button.tsx")
- * Output: Array of ancestors from root to file: [{ _id, name: "src" }, { _id, name: "components" }, { _id, name: "button.tsx" }]
- *
- * Used for: Breadcrumbs navigation (src > components > button.tsx)
- */
+*
+* Input:  A file ID (e.g., the ID of "button.tsx")
+* Output: Array of ancestors from root to file: [{ _id, name: "src" }, { _id, name: "components" }, { _id, name: "button.tsx" }]
+*
+* Used for: Breadcrumbs navigation (src > components > button.tsx)
+*/
+
+
+export const getFolderContents = query({
+    args: {
+        projectId: v.id("projects"),
+        parentId: v.optional(v.id("files")),
+    },
+    handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
+        const project = await ctx.db.get("projects", args.projectId)
+
+        if (!project) {
+            throw new Error("Project not found")
+        };
+
+        if (project.ownerId !== identity.subject) {
+            throw new Error("Unauthorized to access this project");
+        };
+
+        const files = await ctx.db
+            .query("files")
+            .withIndex("by_project_parent", (q) => q.eq
+                ("projectId", args.projectId).eq("parentId", args.parentId)
+            )
+            .collect();
+    },
+});
 
 export const getFilePath = query({
     args: {
