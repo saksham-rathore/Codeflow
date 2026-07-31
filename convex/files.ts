@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { verifyAuth } from "./auth";
-import { Id } from "./_generated/dataModel";
+import { Doc, Id } from "./_generated/dataModel";
 
 export const getFiles = query({
     args: {
@@ -129,10 +129,21 @@ export const getFilePath = query({
             throw new Error("Unauthorized to access this project");
         };
 
-        // more lines here 
+        const path: { _id: string; name: string }[] = [];
+        let currentId: Id<"files"> | undefined = args.id;
 
-        return file;
-    }
+        while (currentId) {
+            const file = (await ctx.db.get("files", currentId)) as
+                | Doc<"files">
+                | undefined;
+            if (!file) break;
+
+            path.unshift({ _id: file._id, name: file.name });
+            currentId = file.parentId;
+        }
+
+        return path;
+    },
 });
 
 export const createFile = mutation({
