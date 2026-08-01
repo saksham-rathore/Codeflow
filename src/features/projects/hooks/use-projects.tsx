@@ -17,8 +17,8 @@ export const useProjectsPartial = (limit: number) => {
 
 export const usecreateProject = () => {
     return useMutation(api.projects.create).withOptimisticUpdate(
-        (localStorage, args) => {
-            const existingProject = localStorage.getQuery(api.projects.get);
+        (localstore, args) => {
+            const existingProject = localstore.getQuery(api.projects.get);
 
             if (existingProject !== undefined) {
                 const now = Date.now();
@@ -30,7 +30,7 @@ export const usecreateProject = () => {
                     updatedAt: now,
                 };
 
-                localStorage.setQuery(api.projects.get, {}, [
+                localstore.setQuery(api.projects.get, {}, [
                     newProject,
                     ...existingProject,
                 ]);

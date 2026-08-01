@@ -199,6 +199,59 @@ export const createFile = mutation({
     },
 });
 
+
+export const createFolder = mutation({
+    args: {
+        name: v.string(),
+        projectId: v.id("projects"),
+        parentId: v.optional(v.id("files")),
+    },
+    handler: async (ctx, args) => {
+        const identity = await verifyAuth(ctx);
+
+        const project = await ctx.db.get("projects", args.projectId);
+
+        if (!project) {
+            throw new Error("Project not found")
+        };
+
+        if (project.ownerId !== identity.subject) {
+            throw new Error("Unauthorized to access this project");
+        }
+
+        // check if file with same name already exists in this parent folder
+        const files = await ctx.db
+            .query("files")
+            .withIndex("by_project_parent", (q) =>
+                q
+                    .eq("projectId", args.projectId)
+                    .eq("parentId", args.parentId)
+            )
+            .collect();
+
+        const existing = files.find(
+            (files) => files.name === args.name && files.type === "file"
+        );
+
+        if (existing) throw new Error("Folder already exists");
+
+        const now = Date.now();
+
+        await ctx.db.insert("files", {
+            projectId: args.projectId,
+            name: args.name,
+            parentId: args.parentId,
+            type: "file",
+            updatedAt: now,
+        })
+
+        await ctx.db.patch("projects", args.projectId, {
+            updatedAt: now,
+        });
+    },
+});
+
+
 export const renameFile = mutation({
     args: {
         id: v.id("files"),
