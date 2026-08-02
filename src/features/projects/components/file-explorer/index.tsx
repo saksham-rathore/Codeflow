@@ -11,6 +11,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useProject } from "../../hooks/use-projects";
 import { Id } from "../../../../../convex/_generated/dataModel";
 import { useCreateFile, useFolderContents, useCreateFolder } from "../../hooks/use-files";
+import { CreateInput } from "./create-input";
+import { Item } from "@/components/ui/item";
+import { LoadingRow } from "./loading-row";
 
 
 export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
@@ -96,9 +99,24 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
                     </div>
                 </div>
                 (isOpen && (
-
                 <>
-
+                    {rootFiles === undefined && <LoadingRow level={0} />}
+                    {creating && (
+                        <CreateInput
+                            type={creating}
+                            level={0}
+                            onSubmit={handleCreate}
+                            onCancel={() => setCreating(null)}
+                        />
+                    )}
+                    {rootFiles?.map((Item) => {
+                        // <Tree
+                        //     key={`${Item._id}-${collapseKey}`}
+                        //     item={Item}
+                        //     level={0}
+                        //     projectId={projectId}
+                        // />
+                    })}
                 </>
                 ))
             </ScrollArea>
