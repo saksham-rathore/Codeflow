@@ -15,9 +15,10 @@ import { Children } from "react";
 export const TreeItemWrapper = ({
     item,
     children,
-    onActive,
+    isActive,
     onClick,
     onCreateFile,
+    onCreateFolder,
     onDelete,
     onDoubleClick,
     onRename,
@@ -29,56 +30,69 @@ export const TreeItemWrapper = ({
     onDelete?: () => void;
     onRename?: () => void;
     onCreateFile?: () => void;
+    onCreateFolder?: () => void;
     onDoubleClick?: () => void;
-    onActive?: boolean;
+    isActive?: boolean;
     level: number;
 }) => {
     return (
         <ContextMenu>
             <ContextMenuTrigger asChild>
-
-
-
-
-
+                <button
+                    onClick={onClick}
+                    onDoubleClick={onDoubleClick}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter")
+                            e.preventDefault();
+                        onRename?.();
+                    }}
+                    className={cn(
+                        "group flex items-center gap-1 w-full h-5.5 hover:bg-accent/30 outline-none focus:ring-1 focus:ring-inset focus:ring-ring",
+                        isActive && "bg-accent/30",
+                    )}
+                    style={{ paddingLeft: getItemPadding(level, item.type === "file") }}
+                >
+                    {children}
+                </button>
             </ContextMenuTrigger>
             <ContextMenuContent
-
+                onCloseAutoFocus={(e) => e.preventDefault()}
                 className="w-64"
             >
-
-                <>
-                    <ContextMenuItem
-
-                        className="text-sm"
-                    >
-
-                    </ContextMenuItem>
-                    <ContextMenuItem
-
-                        className="text-sm"
-                    >
-
-                    </ContextMenuItem>
-                    <ContextMenuSeparator />
-                </>
+                {item.type === "folder" && (
+                    <>
+                        <ContextMenuItem
+                            onClick={onCreateFile}
+                            className="text-sm"
+                        >
+                            New File...
+                        </ContextMenuItem>
+                        <ContextMenuItem
+                            onClick={onCreateFolder}
+                            className="text-sm"
+                        >
+                            New Folder...
+                        </ContextMenuItem>
+                        <ContextMenuSeparator />
+                    </>
+                )}
 
                 <ContextMenuItem
-
+                    onClick={onRename}
                     className="text-sm"
                 >
-
+                    Rename...
                     <ContextMenuShortcut>
-
+                        Enter
                     </ContextMenuShortcut>
                 </ContextMenuItem>
                 <ContextMenuItem
-
+                    onClick={onDelete}
                     className="text-sm"
                 >
-
+                    Delete Permanently
                     <ContextMenuShortcut>
-
+                        ⌘Backspace
                     </ContextMenuShortcut>
                 </ContextMenuItem>
             </ContextMenuContent>
