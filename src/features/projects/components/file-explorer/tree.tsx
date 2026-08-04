@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, Folder } from "lucide-react";
 import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
 
 import { cn } from "@/lib/utils";
@@ -18,6 +18,7 @@ import { Item } from "@/components/ui/item";
 import { getItemPadding } from "./constants";
 import { LoadingRow } from "./loading-row";
 import { CreateInput } from "./create-input";
+import { RenameInput } from "./rename-input";
 
 export const Tree = ({
     item,
@@ -131,6 +132,98 @@ export const Tree = ({
                 <FolderIcon folderName={folderName} className="size-4" />
             </div>
             <span className="truncate text-sm">{folderName}</span>
+        </>
+    );
+
+    if (creating) {
+        return (
+            <>
+                <button
+                    className="group flex items-center gap-1 h-5.5 hover:bg-accent/30 w-full"
+                    onClick={() => setIsOpen((value) => !value)}
+                    style={{ paddingLeft: getItemPadding(level, false) }}
+                >
+                    {folderRender}
+                </button>
+                {isOpen && (
+                    <>
+                        {folderContents === undefined && <LoadingRow level={level + 1} />}
+                        <CreateInput
+                            type={creating}
+                            level={level + 1}
+                            onCancel={() => setCreating(null)}
+                            onSubmit={handleCreate}
+                        />
+                        {folderContents?.map((subItem) => (
+                            <Tree
+                                key={subItem._id}
+                                item={subItem}
+                                level={level + 1}
+                                projectId={projectId}
+                            />
+                        ))}
+                    </>
+                )}
+            </>
+        );
+    }
+
+    if (isRenaming) {
+        return (
+            <>
+                <RenameInput
+                    type="folder"
+                    defaultValue={folderName}
+                    isOpen={isOpen}
+                    level={level}
+                    onSubmit={handleRename}
+                    onCancel={() => setIsRenaming(false)}
+                />
+                {isOpen && (
+                    <>
+                        {folderContents === undefined && <LoadingRow level={level + 1} />}
+                        {folderContents?.map((subItem) => (
+                            <Tree
+                                key={subItem._id}
+                                item={subItem}
+                                level={level + 1}
+                                projectId={projectId}
+                            />
+                        ))}
+                    </>
+                )}
+            </>
+        )
+    }
+
+    return (
+        <>
+            <TreeItemWrapper
+                item={item}
+                level={level}
+                onClick={() => setIsOpen((value) => !value)}
+                onRename={() => setIsRenaming(true)}
+                onDelete={() => {
+                    deleteFile({ id: item._id })
+                }}
+                onCreateFile={() => setCreating("file")}
+                onCreateFolder={() => setCreating("folder")}
+            >
+                {folderRender}
+            </TreeItemWrapper>
+            {isOpen && (
+                <>
+                    {folderContents === undefined && <LoadingRow level={level + 1} />}
+                    {folderContents?.map((subItem) => (
+                        <Tree
+                            key={subItem._id}
+                            item={subItem}
+                            level={level + 1}
+                            projectId={projectId}
+                        />
+                    ))}
+                </>
+            )}
         </>
     );
 }
