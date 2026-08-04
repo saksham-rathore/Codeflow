@@ -15,6 +15,7 @@ import { CreateInput } from "./create-input";
 import { Item } from "@/components/ui/item";
 import { LoadingRow } from "./loading-row";
 
+import { Tree } from "./tree";
 
 export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -98,7 +99,7 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
                         </Button>
                     </div>
                 </div>
-                (isOpen && (
+                {isOpen && (
                 <>
                     {rootFiles === undefined && <LoadingRow level={0} />}
                     {creating && (
@@ -110,15 +111,15 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
                         />
                     )}
                     {rootFiles?.map((Item) => {
-                        // <Tree
-                        //     key={`${Item._id}-${collapseKey}`}
-                        //     item={Item}
-                        //     level={0}
-                        //     projectId={projectId}
-                        // />
+                        <Tree
+                            key={`${Item._id}-${collapseKey}`}
+                            item={Item}
+                            level={0}
+                            projectId={projectId}
+                        />
                     })}
                 </>
-                ))
+                )}
             </ScrollArea>
         </div>
     );
