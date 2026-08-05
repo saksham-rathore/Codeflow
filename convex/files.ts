@@ -230,7 +230,7 @@ export const createFolder = mutation({
             .collect();
 
         const existing = files.find(
-            (files) => files.name === args.name && files.type === "file"
+            (files) => files.name === args.name && files.type === "folder"
         );
 
         if (existing) throw new Error("Folder already exists");
@@ -241,7 +241,7 @@ export const createFolder = mutation({
             projectId: args.projectId,
             name: args.name,
             parentId: args.parentId,
-            type: "file",
+            type: "folder",
             updatedAt: now,
         })
 

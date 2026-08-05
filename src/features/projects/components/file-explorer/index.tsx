@@ -108,14 +108,14 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
                                 onCancel={() => setCreating(null)}
                             />
                         )}
-                        {rootFiles?.map((Item) => {
+                        {rootFiles?.map((Item) => (
                             <Tree
                                 key={`${Item._id}-${collapseKey}`}
                                 item={Item}
                                 level={0}
                                 projectId={projectId}
                             />
-                        })}
+                        ))}
                     </>
                 )}
             </ScrollArea>
