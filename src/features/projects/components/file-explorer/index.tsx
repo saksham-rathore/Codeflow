@@ -20,9 +20,7 @@ import { Tree } from "./tree";
 export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
     const [isOpen, setIsOpen] = useState(true);
     const [collapseKey, setCollapseKey] = useState(0);
-    const [creating, setCreating] = useState<"file" | "folder" | null>(
-        null
-    );
+    const [creating, setCreating] = useState<"file" | "folder" | null>(null);
 
     const project = useProject(projectId);
     const rootFiles = useFolderContents({
@@ -100,25 +98,25 @@ export const FileExplorer = ({ projectId }: { projectId: Id<"projects"> }) => {
                     </div>
                 </div>
                 {isOpen && (
-                <>
-                    {rootFiles === undefined && <LoadingRow level={0} />}
-                    {creating && (
-                        <CreateInput
-                            type={creating}
-                            level={0}
-                            onSubmit={handleCreate}
-                            onCancel={() => setCreating(null)}
-                        />
-                    )}
-                    {rootFiles?.map((Item) => {
-                        <Tree
-                            key={`${Item._id}-${collapseKey}`}
-                            item={Item}
-                            level={0}
-                            projectId={projectId}
-                        />
-                    })}
-                </>
+                    <>
+                        {rootFiles === undefined && <LoadingRow level={0} />}
+                        {creating && (
+                            <CreateInput
+                                type={creating}
+                                level={0}
+                                onSubmit={handleCreate}
+                                onCancel={() => setCreating(null)}
+                            />
+                        )}
+                        {rootFiles?.map((Item) => {
+                            <Tree
+                                key={`${Item._id}-${collapseKey}`}
+                                item={Item}
+                                level={0}
+                                projectId={projectId}
+                            />
+                        })}
+                    </>
                 )}
             </ScrollArea>
         </div>
