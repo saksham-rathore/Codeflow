@@ -20,6 +20,7 @@ import { getItemPadding } from "./constants";
 import { LoadingRow } from "./loading-row";
 import { CreateInput } from "./create-input";
 import { RenameInput } from "./rename-input";
+import { useEditor } from "../../../editor/hooks/use-editor";
 
 export const Tree = ({
     item,

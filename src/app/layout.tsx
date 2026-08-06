@@ -38,7 +38,7 @@ export default function RootLayout({
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
             <ThemeProvider
               attribute="class"
-              defaultTheme="light"
+              defaultTheme="dark"
               enableSystem
               disableTransitionOnChange
             >
