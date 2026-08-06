@@ -12,7 +12,6 @@ import {
     useRenameFile,
     useDeleteFile,
 } from "@/features/projects/hooks/use-files";
-import { useEditorStore } from "@/features/editor/store/use-editor-store";
 import { Doc, Id } from "../../../../../convex/_generated/dataModel";
 import { TreeItemWrapper } from "./tree-item-wrapper";
 import { Item } from "@/components/ui/item";
@@ -42,7 +41,7 @@ export const Tree = ({
 
     const deleteFile = useDeleteFile({
         projectId,
-        parentId: item.parentId,
+        parentId: item.parentId, 
     });
 
     const createFile = useCreateFile();
