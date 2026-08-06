@@ -1,4 +1,4 @@
-export const BreadCrumbs = () => {
+export const FileBreadCrumbs = () => {
     return (
         <div>
             Bread Crumbs !!
