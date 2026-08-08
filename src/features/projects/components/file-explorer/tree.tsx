@@ -41,7 +41,7 @@ export const Tree = ({
 
     const deleteFile = useDeleteFile({
         projectId,
-        parentId: item.parentId, 
+        parentId: item.parentId,
     });
 
     const createFile = useCreateFile();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
 import { getItemPadding } from "./constants";
 
@@ -14,16 +14,17 @@ export const CreateInput = ({
     onSubmit: (name: string) => void;
     onCancel: () => void;
 }) => {
-    const [Value, setValue] = useState("");
+    const [value, setValue] = useState("");
 
     const handleSubmit = () => {
-        const trimmedValue = Value.trim();
+        const trimmedValue = value.trim();
         if (trimmedValue) {
             onSubmit(trimmedValue);
         } else {
             onCancel();
         }
     }
+
     return (
         <div className="w-full flex items-center gap-1 h-5.5 bg-accent/30"
             style={{ paddingLeft: getItemPadding(level, type === "file") }}
@@ -32,17 +33,17 @@ export const CreateInput = ({
                 {type === "folder" && (
                     <ChevronRightIcon className="size-4 shrink-0 text-muted-foreground" />
                 )}
-                {type === "folder" && (
-                    <FileIcon fileName={Value} autoAssign className="size-4" />
-                )}
                 {type === "file" && (
-                    <FolderIcon className="size-4" folderName={Value} />
+                    <FileIcon fileName={value} autoAssign className="size-4" />
+                )}
+                {type === "folder" && (
+                    <FolderIcon className="size-4" folderName={value} />
                 )}
             </div>
             <input
                 autoFocus
                 type="text"
-                value={Value}
+                value={value}
                 onChange={(e) => setValue(e.target.value)}
                 className="flex-1 bg-transparent text-sm outline-none focus:ring-1 focus:ring-inset focus:ring-ring"
                 onBlur={handleSubmit}
