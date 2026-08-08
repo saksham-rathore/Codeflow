@@ -3,7 +3,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { useEditor } from "../hooks/use-editor";
 import { TopNavigation } from "./top-navigation";
 import { useCallback, useEffect, useRef } from "react";
-import { FileBreadCrumbs } from "./file-breadcrumbs";
+import { FileBreadcrumbs } from "./file-breadcrumbs";
 
 export const EditorView = ({ projectId }: { projectId: Id<"projects"> }) => {
 
@@ -16,9 +16,9 @@ export const EditorView = ({ projectId }: { projectId: Id<"projects"> }) => {
     return (
         <div className="h-full flex flex-col">
             <div className="flex items-center">
-                <TopNavigation projectId={projectId} />
+                {/* <TopNavigation projectId={projectId} /> */}
             </div>
-            {activeTabId && <FileBreadCrumbs projectId={projectId} />}
+            {activeTabId && <FileBreadcrumbs projectId={projectId} />}
             <div>
 
             </div>

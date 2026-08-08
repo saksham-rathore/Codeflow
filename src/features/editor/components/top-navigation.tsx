@@ -39,8 +39,12 @@ export const TopNavigation = ({
             ) : (
                 <FileIcon fileName={fileName} autoAssign className="size-4" />
             )}
-
+            <span className={cn(
+                "text-sm whitespace-nowrap",
+                isPreview && "italic"
+            )}>
+                {fileName}
+            </span>
         </div >
     )
 }
-
