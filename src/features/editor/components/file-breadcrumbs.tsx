@@ -23,7 +23,7 @@ export const FileBreadcrumbs = ({
     const { activeTabId } = useEditor(projectId);
     const filePath = useFilePath(activeTabId);
 
-    if (filePath == undefined || !activeTabId) {
+    if (filePath === undefined || !activeTabId) {
         return (
             <div className="p-2 bg-background pl-4 border-b">
                 <Breadcrumb>
@@ -34,15 +34,16 @@ export const FileBreadcrumbs = ({
                     </BreadcrumbList>
                 </Breadcrumb>
             </div>
-        )
-    };
+        );
+    }
 
     return (
         <div className="p-2 bg-background pl-4 border-b">
             <Breadcrumb>
                 <BreadcrumbList className="sm:gap-0.5 gap-0.5">
                     {filePath.map((item, index) => {
-                        const isLast = index == filePath.length - 1;
+                        const isLast = index === filePath.length - 1;
+
                         return (
                             <React.Fragment key={item._id}>
                                 <BreadcrumbItem className="text-sm">
@@ -61,7 +62,7 @@ export const FileBreadcrumbs = ({
                                         </BreadcrumbLink>
                                     )}
                                 </BreadcrumbItem>
-                                {isLast && <BreadcrumbSeparator />}
+                                {!isLast && <BreadcrumbSeparator />}
                             </React.Fragment>
                         )
                     })}
