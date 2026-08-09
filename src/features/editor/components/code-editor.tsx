@@ -2,15 +2,15 @@ import { useEffect, useMemo, useRef } from "react"
 import { EditorView, keymap } from "@codemirror/view";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { indentWithTab } from "@codemirror/commands";
-import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 
 import { minimap } from "../extensions/minimap";
-import { customTheme } from "../extensions/theme";
 import { getLanguageExtension } from "../extensions/language-extension";
+import { customTheme } from "../extensions/theme";
 import { customSetup } from "../extensions/custom-setup";
 import { suggestion } from "../extensions/suggestion";
 import { quickEdit } from "../extensions/quick-edit";
 import { selectionTooltip } from "../extensions/selection-tooltip";
+import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 
 interface Props {
     fileName: string;
