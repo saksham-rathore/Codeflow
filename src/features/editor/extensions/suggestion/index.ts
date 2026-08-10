@@ -1,5 +1,6 @@
-import { StateEffect, StateField } from "@codemirror/state";
-import { EditorView, lineNumbers, ViewPlugin, WidgetType } from "@codemirror/view";
+import { StateEffect, StateField, Transaction } from "@codemirror/state";
+import { Decoration, DecorationSet, EditorView, keymap, lineNumbers, ViewPlugin, ViewUpdate, WidgetType } from "@codemirror/view";
+import { transcode } from "buffer";
 
 // StateEffect: A way to send "messages" to update state.
 // We define one effect type for setting the suggestion text.
@@ -83,8 +84,129 @@ const createDebouncePlugin = (fileName: string) => {
     return ViewPlugin.fromClass(
         class {
             constructor(view: EditorView) {
-                this.triggerSuggestion(view);
+                this.triggerSuggestion(view)
+            }
+
+            update(update: ViewUpdate) {
+                if (update.docChanged || update.selectionSet) {
+                    this.triggerSuggestion(update.view)
+                }
+            }
+            triggerSuggestion(view: EditorView) {
+                if (DebounceTimer !== null) {
+                    clearTimeout(DebounceTimer);
+                }
+
+                if (currentAbortController !== null) {
+                    currentAbortController.abort();
+                }
+
+                isWaitingForSuggestion = true;
+
+                DebounceTimer = window.setTimeout(async () => {
+                    const payload = generatePayload(view, fileName);
+                    if (!payload) {
+                        isWaitingForSuggestion = false;
+                        view.dispatch({ effects: setSuggestionEffect.of(null) });
+                        return;
+                    }
+                    currentAbortController = new AbortController();
+                    const suggestion = await fetcher(
+                        payload,
+                        currentAbortController.signal
+                    )
+
+                    isWaitingForSuggestion = false;
+                    view.dispatch({
+                        effects: setSuggestionEffect.of(suggestion),
+                    });
+                }, DEBOUNCE_DELAY);
+            }
+            destroy() {
+                if (DebounceTimer !== null) {
+                    clearTimeout(DebounceTimer);
+                }
+
+                if (currentAbortController !== null) {
+                    currentAbortController.abort();
+                }
             }
         }
     )
 }
+
+const renderPlugin = ViewPlugin.fromClass(
+    class {
+        decorations: DecorationSet;
+
+        constructor(view: EditorView) {
+            this.decorations = this.build(view);
+        }
+
+        update(update: ViewUpdate) {
+            // Rebuild decorations if doc changed, cursor moved, or suggestion changed
+            const suggestionChanged = update.transactions.some((transaction) => {
+                return transaction.effects.some((effect) => {
+                    return effect.is(setSuggestionEffect);
+                });
+            });
+
+            // Rebuild decorations if doc changed, cursor moved, or suggestion changed
+            const shouldRebuild =
+                update.docChanged || update.selectionSet || suggestionChanged;
+
+            if (shouldRebuild) {
+                this.decorations = this.build(update.view);
+            }
+        }
+
+        build(view: EditorView) {
+            if (isWaitingForSuggestion) {
+                return Decoration.none;
+            }
+
+            // Get current suggestion from state
+            const suggestion = view.state.field(SuggestionState);
+            if (!suggestion) {
+                return Decoration.none;
+            }
+
+            // Create a widget decoration at the cursor position
+            const cursor = view.state.selection.main.head;
+            return Decoration.set([
+                Decoration.widget({
+                    widget: new SuggestionWidget(suggestion),
+                    side: 1,  // Render after cursor (side: 1), not before (side: -1)
+                }).range(cursor),
+            ]);
+        }
+    },
+    { decorations: (Plugin) => Plugin.decorations } // Tell CodeMirror to use our decorations
+);
+
+const acceptSuggestionKeymap = keymap.of([
+    {
+        key: "Tab",
+        run: (view) => {
+            const suggestion = view.state.field(SuggestionState);
+            if (!suggestion) {
+                return false; // No suggestion? Let Tab do its normal thing (indent)
+            }
+
+            const cursor = view.state.selection.main.head;
+            view.dispatch({
+                changes: { from: cursor, insert: suggestion }, // Insert the suggestion text
+                selection: { anchor: cursor + suggestion.length }, // Move cursor to end
+                effects: setSuggestionEffect.of(null), // Clear the suggestion
+            });
+            return true; // We handled Tab, don't indent
+        },
+    },
+]);
+
+export const suggestion = (fileName: string) => [
+    SuggestionState, // Our state storage
+    createDebouncePlugin(fileName), // Triggers suggestions on typing
+    renderPlugin, // Renders the ghost text
+    acceptSuggestionKeymap, // Tab to accept
+];
