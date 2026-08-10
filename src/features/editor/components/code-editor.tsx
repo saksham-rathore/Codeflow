@@ -5,12 +5,12 @@ import { indentWithTab } from "@codemirror/commands";
 
 import { minimap } from "../extensions/minimap";
 import { getLanguageExtension } from "../extensions/language-extension";
+import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 import { customTheme } from "../extensions/theme";
 import { customSetup } from "../extensions/custom-setup";
 import { suggestion } from "../extensions/suggestion";
 import { quickEdit } from "../extensions/quick-edit";
 import { selectionTooltip } from "../extensions/selection-tooltip";
-import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 
 interface Props {
     fileName: string;
