@@ -1,5 +1,14 @@
 import { StateEffect, StateField, Transaction } from "@codemirror/state";
-import { Decoration, DecorationSet, EditorView, keymap, lineNumbers, ViewPlugin, ViewUpdate, WidgetType } from "@codemirror/view";
+import {
+    Decoration,
+    DecorationSet,
+    EditorView,
+    keymap,
+    lineNumbers,
+    ViewPlugin,
+    ViewUpdate,
+    WidgetType
+} from "@codemirror/view";
 import { transcode } from "buffer";
 
 // StateEffect: A way to send "messages" to update state.
