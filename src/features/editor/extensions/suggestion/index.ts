@@ -9,7 +9,6 @@ import {
     ViewUpdate,
     WidgetType
 } from "@codemirror/view";
-import { transcode } from "buffer";
 
 // StateEffect: A way to send "messages" to update state.
 // We define one effect type for setting the suggestion text.
