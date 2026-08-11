@@ -7,8 +7,8 @@ import { minimap } from "../extensions/minimap";
 import { getLanguageExtension } from "../extensions/language-extension";
 import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 import { customTheme } from "../extensions/theme";
-import { customSetup } from "../extensions/custom-setup";
 import { suggestion } from "../extensions/suggestion";
+import { customSetup } from "../extensions/custom-setup";
 import { quickEdit } from "../extensions/quick-edit";
 import { selectionTooltip } from "../extensions/selection-tooltip";
 

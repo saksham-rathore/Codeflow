@@ -16,6 +16,7 @@ import {
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { UnauthenticatedView } from "../../features/auth/components/unauthenticated-view";
 import { AuthLoadingView } from "../../features/auth/components/auth-loading-view";
+import { Toaster } from "sonner";
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -47,7 +48,10 @@ export default function RootLayout({
                   children
                 ) : (
                   <>
-                    <Authenticated>{children}</Authenticated>
+                    <Authenticated>
+                      {children}
+                      <Toaster />
+                    </Authenticated>
                     <Unauthenticated>
                       <UnauthenticatedView />
                     </Unauthenticated>
