@@ -9,6 +9,7 @@ import {
     ViewUpdate,
     WidgetType
 } from "@codemirror/view";
+import { fetcher } from "./fetcher";
 
 // StateEffect: A way to send "messages" to update state.
 // We define one effect type for setting the suggestion text.
@@ -83,6 +84,7 @@ const generatePayload = (view: EditorView, fileName: string) => {
         currentLine: currentLine.text,
         previousLines: previousLines.join("\n"),
         textBeforeCursor: currentLine.text.slice(0, cursorInLine),
+        textAfterCursor: currentLine.text.slice(cursorInLine),
         nextLines: nextLines.join("\n"),
         lineNumber: currentLine.number,
     }
